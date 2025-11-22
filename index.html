@@ -1,60 +1,366 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Salão de Beleza</title>
-<style>
-    body { margin: 0; font-family: Arial; background: #000; color: #d4af37; }
-    header { text-align: center; padding: 20px; font-size: 32px; letter-spacing: 2px; }
-    .hero { width: 100%; height: 320px; background: url('https://picsum.photos/1200/500') center/cover; }
-    .section { padding: 40px; text-align: center; }
-    h2 { color: #d4af37; }
-    .services { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-    .card { width: 280px; background: #111; padding: 20px; border: 1px solid #d4af37; border-radius: 10px; transition: .3s; }
-    .card:hover { transform: scale(1.05); }
-    .slider, .testimonials { width: 90%; margin: auto; overflow: hidden; }
-    .slider img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
-    footer { text-align: center; padding: 20px; color: #777; }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fick Chick — Salão & Estética | Corte, Coloração, Estética</title>
+  <meta name="description" content="Fick Chick — Salão profissional. Cortes, coloração, escovas e tratamentos de alto padrão. Agende pelo WhatsApp." />
+  <link rel="canonical" href="https://maisjuliodev.github.io/salao-site/">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Fick Chick — Salão & Estética" />
+  <meta property="og:description" content="Cortes, coloração, estética facial e muito mais. Atendimento personalizado — agende online." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=60" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Structured data: LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BeautySalon",
+    "name":"Fick Chick — Salão & Estética",
+    "image":["https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=60"],
+    "telephone":"+5511999999999",
+    "address":{"@type":"PostalAddress","streetAddress":"Rua das Flores, 123","addressLocality":"Cidade","addressRegion":"UF","postalCode":"00000-000","addressCountry":"BR"},
+    "url":"https://maisjuliodev.github.io/salao-site/",
+    "openingHours":"Tu-Sa 09:00-19:00"
+  }
+  </script>
+
+  <style>
+    :root{
+      --bg:#070607; --gold:#caa84a; --muted:#bfb8b8; --card:#0e0e0e; --glass: rgba(255,255,255,0.03);
+      --maxw:1200px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;background:var(--bg);color:#fff;line-height:1.45}
+    a{color:var(--gold);text-decoration:none}
+    /* Header */
+    header{position:fixed;top:0;left:0;right:0;height:72px;background:linear-gradient(180deg,rgba(7,6,7,0.92),rgba(7,6,7,0.75));display:flex;align-items:center;justify-content:space-between;padding:10px 20px;z-index:200;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:54px;width:54px;object-fit:cover;border-radius:8px}
+    nav{display:flex;gap:14px;align-items:center}
+    .nav-link{color:var(--muted);font-weight:600}
+    .btn-primary{background:linear-gradient(180deg,var(--gold),#b68f35);color:#111;padding:8px 14px;border-radius:10px;font-weight:700}
+    /* Hero slider */
+    main{padding-top:92px}
+    .hero{max-width:var(--maxw);margin:18px auto;border-radius:14px;overflow:hidden;position:relative}
+    .slides{display:flex;transition:transform .6s ease;will-change:transform}
+    .slide{min-width:100%;height:520px;background-size:cover;background-position:center;position:relative}
+    .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.6));display:flex;flex-direction:column;justify-content:center;padding:36px}
+    .hero h1{font-size:36px;color:var(--gold);margin:0}
+    .hero p{color:var(--muted);max-width:680px;margin-top:10px}
+    .slider-controls{position:absolute;left:16px;right:16px;bottom:18px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+    .dots{display:flex;gap:8px;pointer-events:auto}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.12);cursor:pointer}
+    .dot.active{background:var(--gold)}
+    .arrow{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:10px;pointer-events:auto;color:var(--gold)}
+    /* container sections */
+    .section{max-width:var(--maxw);margin:32px auto;padding:0 18px}
+    .section h2{color:var(--gold);margin:0 0 12px}
+    /* Services cards */
+    .services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);transition:transform .18s ease;cursor:pointer}
+    .card:hover{transform:translateY(-8px)}
+    .card img{width:100%;height:170px;object-fit:cover;border-radius:8px}
+    .card h3{margin:12px 0 6px}
+    .card p{color:var(--muted);font-size:14px}
+    /* gallery */
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    /* testimonials */
+    .testimonials{display:flex;align-items:center;gap:12px}
+    .test-track{display:flex;gap:12px;transition:transform .4s ease}
+    .tcard{min-width:320px;background:var(--card);padding:18px;border-radius:10px}
+    /* team */
+    .team{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .member{background:var(--card);padding:14px;border-radius:10px;text-align:center}
+    .member img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.04);display:block;margin:0 auto}
+    /* pricing */
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .price{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.02));padding:18px;border-radius:10px;text-align:center}
+    /* contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    input,textarea,select,button{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff}
+    textarea{min-height:120px}
+    /* footer */
+    footer{margin-top:28px;padding:28px;text-align:left;color:var(--muted);background:linear-gradient(180deg,transparent,rgba(0,0,0,0.4))}
+    .footer-grid{display:grid;grid-template-columns:1fr 300px;gap:18px}
+    .socials a{display:inline-block;margin-right:8px;color:var(--muted)}
+    .whatsapp{position:fixed;right:18px;bottom:18px;background:var(--gold);color:#111;padding:12px 14px;border-radius:50px;font-weight:700;box-shadow:0 8px 26px rgba(0,0,0,0.4);z-index:90}
+    /* responsive */
+    @media(max-width:980px){.services{grid-template-columns:repeat(2,1fr)}.team{grid-template-columns:repeat(2,1fr)}.pricing{grid-template-columns:repeat(2,1fr)}.contact-grid{grid-template-columns:1fr}}
+    @media(max-width:560px){nav{display:none}.services{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}.team{grid-template-columns:1fr}.pricing{grid-template-columns:1fr}}
+    /* subtle entrance */
+    .fadeIn{opacity:0;transform:translateY(10px);animation:fadeIn .6s forwards}
+    @keyframes fadeIn{to{opacity:1;transform:none}}
+  </style>
 </head>
 <body>
-<header>Salão de Beleza</header>
+  <header>
+    <div class="brand">
+      <!-- logo local: upload this file to repo or change path after upload -->
+      <img src="/mnt/data/Screenshot_20251121-144028_Instagram.jpg" alt="Logo Fick Chick">
+      <div style="line-height:1">
+        <div style="color:var(--gold);font-weight:800">Fick Chick</div>
+        <div style="font-size:12px;color:var(--muted)">Salão & Estética</div>
+      </div>
+    </div>
+    <nav>
+      <a class="nav-link" href="#servicos">Serviços</a>
+      <a class="nav-link" href="#galeria">Galeria</a>
+      <a class="nav-link" href="#testemunhos">Testemunhos</a>
+      <a class="nav-link" href="#vagas">Vagas</a>
+      <a class="btn-primary" href="#contato">Agende</a>
+    </nav>
+  </header>
 
-<div class="hero"></div>
+  <main>
+    <!-- HERO -->
+    <section class="hero" aria-label="Galeria principal">
+      <div class="slides" id="slides">
+        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=60')">
+          <div class="overlay">
+            <h1>Beleza que inspira confiança</h1>
+            <p>Atendimento personalizado em cortes, coloração e estética com profissionais certificados.</p>
+            <div style="margin-top:12px"><a class="btn-primary" href="#contato">Agendar agora</a></div>
+          </div>
+        </div>
+        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1400&q=60')">
+          <div class="overlay">
+            <h1>Coloração e Mechas</h1>
+            <p>Técnicas profissionais com foco em saúde do fio e resultado natural.</p>
+          </div>
+        </div>
+        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1535914254981-b5012eebbd15?auto=format&fit=crop&w=1400&q=60')">
+          <div class="overlay">
+            <h1>Estética & Relax</h1>
+            <p>Tratamentos faciais e serviços para o seu bem-estar e autoestima.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slider-controls">
+        <div class="dots" id="dots"></div>
+        <div style="display:flex;gap:8px">
+          <button class="arrow" id="prev">❮</button>
+          <button class="arrow" id="next">❯</button>
+        </div>
+      </div>
+    </section>
 
-<div class="section">
-<h2>Serviços</h2>
-<div class="services">
-    <div class="card">Corte de Cabelo Feminino</div>
-    <div class="card">Corte Masculino</div>
-    <div class="card">Coloração & Luzes</div>
-    <div class="card">Escova & Hidratação</div>
-    <div class="card">Design de Sobrancelhas</div>
-    <div class="card">Manicure & Pedicure</div>
-</div>
-</div>
+    <!-- SERVICES -->
+    <section id="servicos" class="section">
+      <h2>Nossos Serviços</h2>
+      <p style="color:var(--muted);max-width:900px;margin:8px auto 18px;text-align:center">
+        Do corte clássico ao serviço de alto padrão — nossa equipe usa técnicas atuais e produtos profissionais para entregar o melhor resultado para o seu cabelo e pele.
+      </p>
+      <div class="services fadeIn">
+        <div class="card" data-title="Corte Feminino" data-desc="Consulta + corte + finalização.">
+          <img src="https://images.unsplash.com/photo-1532339142465-fc7fadd5f09f?auto=format&fit=crop&w=900&q=60" alt="Corte feminino">
+          <h3>Corte Feminino</h3>
+          <p>Modelagem personalizada com acabamento profissional.</p>
+        </div>
 
-<div class="section">
-<h2>Galeria</h2>
-<div class="slider">
-    <img src="https://picsum.photos/1200/550">
-    <img src="https://picsum.photos/1200/551">
-    <img src="https://picsum.photos/1200/552">
-</div>
-</div>
+        <div class="card" data-title="Corte Masculino" data-desc="Cortes modernos e clássicos.">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=60" alt="Corte masculino">
+          <h3>Corte Masculino</h3>
+          <p>Rápido, preciso e estiloso.</p>
+        </div>
 
-<div class="section">
-<h2>Depoimentos</h2>
-<div class="testimonials">
-    <p>"Excelente atendimento! Minha autoestima renovada!" — <b>Maria</b></p>
-    <p>"As meninas são maravilhosas. Recomendo demais." — <b>Ana</b></p>
-</div>
-</div>
+        <div class="card" data-title="Corte Infantil" data-desc="Cortes para crianças com atenção e carinho.">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=60" alt="Corte infantil">
+          <h3>Corte Infantil</h3>
+          <p>Cortes divertidos e seguros para os pequenos.</p>
+        </div>
 
-<footer>
-© 2025 - Salão de Beleza. Todos os direitos reservados.
-</footer>
+        <div class="card" data-title="Coloração & Mechas" data-desc="Balayage, ombré e reflexos.">
+          <img src="https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=900&q=60" alt="Coloração">
+          <h3>Coloração & Mechas</h3>
+          <p>Técnicas que preservam a saúde do fio.</p>
+        </div>
 
+        <div class="card" data-title="Escova & Finalização" data-desc="Escovas lisas e modeladas para eventos.">
+          <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=900&q=60" alt="Escova">
+          <h3>Escova & Finalização</h3>
+          <p>Pronta para qualquer ocasião.</p>
+        </div>
+
+        <div class="card" data-title="Manicure & Pedicure" data-desc="Esmaltação, alongamento e SPA para mãos e pés.">
+          <img src="https://images.unsplash.com/photo-1587825140708-3ce1c8f3d5b2?auto=format&fit=crop&w=900&q=60" alt="Manicure">
+          <h3>Manicure & Pedicure</h3>
+          <p>Tratamentos completos com higiene e qualidade.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="galeria" class="section">
+      <h2>Galeria — Nossos Trabalhos</h2>
+      <p style="color:var(--muted);text-align:center;max-width:900px;margin:6px auto 12px">
+        Veja cortes, colorações e transformações feitas por nossos profissionais.
+      </p>
+      <div class="gallery fadeIn">
+        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=60" alt="gal1">
+        <img src="https://images.unsplash.com/photo-1515548213286-7c4b1b2b5b88?auto=format&fit=crop&w=800&q=60" alt="gal2">
+        <img src="https://images.unsplash.com/photo-1556228720-2a6d0b4b3e86?auto=format&fit=crop&w=800&q=60" alt="gal3">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=60" alt="gal4">
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testemunhos" class="section">
+      <h2>Testemunhos</h2>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="arrow" id="tprev">❮</button>
+        <div style="overflow:hidden;flex:1">
+          <div class="test-track" id="ttrack">
+            <div class="tcard">“Excelente atendimento e resultado impecável.” — <strong>Maria</strong></div>
+            <div class="tcard">“Meu cabelo nunca esteve tão saudável.” — <strong>Joana</strong></div>
+            <div class="tcard">“Profissionais talentosos e muito atenciosos.” — <strong>Paulo</strong></div>
+          </div>
+        </div>
+        <button class="arrow" id="tnext">❯</button>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section">
+      <h2>Equipe</h2>
+      <p style="color:var(--muted);text-align:center;max-width:900px;margin:6px auto 12px">Conheça quem vai cuidar de você.</p>
+      <div class="team fadeIn">
+        <div class="member">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=60" alt="Equipe1">
+          <h4>Mariana — Colorista</h4>
+          <p style="color:var(--muted)">Especialista em técnicas de balayage e mechas.</p>
+        </div>
+        <div class="member">
+          <img src="https://images.unsplash.com/photo-1545996124-6b5e8d2d1b8a?auto=format&fit=crop&w=400&q=60" alt="Equipe2">
+          <h4>Renato — Cabeleireiro</h4>
+          <p style="color:var(--muted)">Cortes modernos e finalizações impecáveis.</p>
+        </div>
+        <div class="member">
+          <img src="https://images.unsplash.com/photo-1544005310-79d070748ccc?auto=format&fit=crop&w=400&q=60" alt="Equipe3">
+          <h4>Ana — Esteticista</h4>
+          <p style="color:var(--muted)">Tratamentos faciais e design de sobrancelhas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section">
+      <h2>Tabelas de Preço (Exemplos)</h2>
+      <div class="pricing fadeIn">
+        <div class="price">
+          <h3>Corte Feminino</h3>
+          <p>R$ 80 – R$ 160</p>
+          <p>Inclui consulta e finalização</p>
+        </div>
+        <div class="price">
+          <h3>Coloração</h3>
+          <p>R$ 120 – R$ 380</p>
+          <p>Dependendo da técnica</p>
+        </div>
+        <div class="price">
+          <h3>Corte Infantil</h3>
+          <p>R$ 40 – R$ 70</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- JOBS -->
+    <section id="vagas" class="section">
+      <h2>Vagas</h2>
+      <div class="jobs" style="max-width:900px;margin:10px auto">
+        <div class="job"><strong>Auxiliar de salão (júnior)</strong> — 30h/sem — Enviar CV por WhatsApp.</div>
+        <div class="job"><strong>Colorista</strong> — Experiência desejada — Enviar portfólio.</div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contato" class="section">
+      <h2>Contato & Agendamento</h2>
+      <div class="contact-grid">
+        <form id="contactForm" onsubmit="(e=>{e.preventDefault();alert('Obrigado! Sua mensagem foi enviada (demo).');e.target.reset();})(event)">
+          <label style="font-size:13px;color:var(--muted)">Nome</label>
+          <input id="nome" required placeholder="Seu nome" />
+          <label style="font-size:13px;color:var(--muted);margin-top:8px">WhatsApp</label>
+          <input id="wh" required placeholder="(XX) 9XXXX-XXXX" />
+          <label style="font-size:13px;color:var(--muted);margin-top:8px">Serviço</label>
+          <select><option>Selecione</option><option>Corte Feminino</option><option>Corte Infantil</option><option>Coloração</option></select>
+          <label style="font-size:13px;color:var(--muted);margin-top:8px">Mensagem</label>
+          <textarea placeholder="Data desejada / observações"></textarea>
+          <div style="margin-top:10px"><button class="btn-primary" type="submit">Enviar</button></div>
+        </form>
+
+        <div style="background:var(--card);padding:18px;border-radius:12px;">
+          <h4 style="color:var(--gold)">Nosso Salão</h4>
+          <p style="color:var(--muted)">Rua das Flores, 123 — Bairro Exemplo</p>
+          <p style="color:var(--muted)">Horário: Ter–Sáb 09:00–19:00</p>
+          <p style="color:var(--muted)">WhatsApp: <a href="https://wa.me/5511999999999" target="_blank">(11) 99999-9999</a></p>
+          <div style="margin-top:12px"><a class="btn-primary" href="https://wa.me/5511999999999" target="_blank">Ligar / WhatsApp</a></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-grid" style="max-width:var(--maxw);margin:0 auto">
+      <div>
+        <strong style="color:var(--gold)">Fick Chick — Salão & Estética</strong>
+        <p style="color:var(--muted)">Atendimento com agendamento prévio. Transformamos seu visual com confiança.</p>
+        <div class="socials">
+          <a href="#" target="_blank">Instagram</a> • <a href="#" target="_blank">Facebook</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="color:var(--gold)">Localização</h4>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!" width="100%" height="180" style="border:0;border-radius:8px" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+    <div style="max-width:var(--maxw);margin:12px auto;color:var(--muted);font-size:13px">© 2025 Fick Chick — Todos os direitos reservados</div>
+  </footer>
+
+  <a class="whatsapp" href="https://wa.me/5511999999999" target="_blank" title="WhatsApp">WhatsApp</a>
+
+  <script>
+    // HERO slider
+    const slidesEl = document.getElementById('slides');
+    const slides = document.querySelectorAll('.slide');
+    const dotsEl = document.getElementById('dots');
+    let index = 0;
+    function renderDots(){dotsEl.innerHTML='';slides.forEach((s,i)=>{const d=document.createElement('div');d.className='dot';if(i===index)d.classList.add('active');d.onclick=()=>{goTo(i)};dotsEl.appendChild(d)})}
+    function goTo(i){index=i;update();}
+    function update(){slidesEl.style.transform = `translateX(-${index*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===index))}
+    document.getElementById('next').onclick=()=>{index=(index+1)%slides.length;update()}
+    document.getElementById('prev').onclick=()=>{index=(index-1+slides.length)%slides.length;update()}
+    renderDots();let heroAuto=setInterval(()=>{index=(index+1)%slides.length;update()},4500);
+    document.querySelector('.hero').addEventListener('mouseenter',()=>clearInterval(heroAuto));
+    document.querySelector('.hero').addEventListener('mouseleave',()=>heroAuto=setInterval(()=>{index=(index+1)%slides.length;update()},4500));
+
+    // services modal
+    document.querySelectorAll('.card').forEach(s=>s.addEventListener('click',()=>{
+      const title=s.dataset.title,desc=s.dataset.desc,img=s.querySelector('img')?.src;
+      const html = `<div style="display:flex;gap:16px;align-items:flex-start"><img src="${img}" style="width:220px;height:140px;object-fit:cover;border-radius:8px"><div><h3 style='color:var(--gold);margin:0'>${title}</h3><p style='color:var(--muted)'>${desc}</p><p style='color:var(--muted);font-size:13px'>Duração e preço dependem do serviço. Entre em contato para orçamento.</p><div style='margin-top:10px'><a class='btn-primary' href='#contato'>Agendar</a></div></div></div>`;
+      const modal = document.createElement('div');modal.style.position='fixed';modal.style.inset=0;modal.style.background='rgba(0,0,0,0.66)';modal.style.display='flex';modal.style.alignItems='center';modal.style.justifyContent='center';modal.style.zIndex=9999;
+      modal.innerHTML=`<div style="max-width:820px;width:92%;background:#0b0b0b;padding:18px;border-radius:12px">${html}<div style="text-align:right;margin-top:12px"><button id="closeModal" style="background:none;border:none;color:var(--muted)">Fechar</button></div></div>`;
+      document.body.appendChild(modal);modal.querySelector('#closeModal').onclick=()=>modal.remove();modal.addEventListener('click',e=>{if(e.target===modal)modal.remove()});
+    }));
+
+    // testimonials carousel
+    const ttrack = document.getElementById('ttrack');
+    const tprev = document.getElementById('tprev'); const tnext = document.getElementById('tnext');
+    let tindex = 0;
+    function tupdate(){const w=344;ttrack.style.transform=`translateX(-${tindex*w}px)`}
+    if(tprev) tprev.onclick=()=>{tindex=Math.max(0,tindex-1);tupdate()}
+    if(tnext) tnext.onclick=()=>{tindex=Math.min(2,tindex+1);tupdate()}
+
+    // smooth scroll nav
+    document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',(e)=>{e.preventDefault();const id=a.getAttribute('href').slice(1);document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}))
+
+    // small lazy load for gallery images
+    document.querySelectorAll('.gallery img').forEach(img=>{img.loading='lazy';img.sizes='(max-width:600px) 100vw, 25vw'})
+
+  </script>
 </body>
 </html>
+
